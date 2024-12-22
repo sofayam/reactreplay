@@ -9,7 +9,7 @@ const PORT = 5001;
 app.use(morgan('combined'))
 
 // Path to the JSON file
-const dbPath = path.join(__dirname, "db.json");
+const dbPath = path.join(__dirname, "raw.json");
 
 // Path to React build folder
 const reactBuildPath = path.join(__dirname, "app", "build");
