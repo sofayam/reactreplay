@@ -25,21 +25,21 @@ const App = () => {
   }, []);
 
   // Handle clicking on an activity to mark it as performed
-  const handleActivityClick = (id) => {
+  const handleActivityClick = (name) => {
     const now = new Date().toISOString();
-    fetch(`/api/activities/${id}`, {
+    fetch(`/api/activities/${name}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        performedTimes: [now, ...activities.find((activity) => activity.id === id).performedTimes],
+        performedTimes: [now, ...activities.find((activity) => activity.name === name).performedTimes],
       }),
     })
       .then((response) => response.json())
       .then((updatedActivity) => {
         const updatedActivities = activities.map((activity) =>
-          activity.id === id ? updatedActivity : activity
+          activity.name === name ? updatedActivity : activity
         );
         setActivities(
           updatedActivities.sort(
@@ -64,7 +64,7 @@ const App = () => {
       <ul style={{ listStyleType: "none", padding: 0 }}>
         {activities.map((activity) => (
           <li
-            key={activity.id}
+            key={activity.name}
             style={{
               marginBottom: "10px",
               padding: "10px",
@@ -73,7 +73,7 @@ const App = () => {
               cursor: "pointer",
               backgroundColor: "#f9f9f9",
             }}
-            onClick={() => handleActivityClick(activity.id)}
+            onClick={() => handleActivityClick(activity.name)}
           >
             <strong>{activity.name}</strong>
             <br />

@@ -38,9 +38,9 @@ app.get("/api/activities", (req, res) => {
 });
 
 // Get a single activity by ID
-app.get("/api/activities/:id", (req, res) => {
+app.get("/api/activities/:name", (req, res) => {
   const db = readDB();
-  const activity = db.activities.find((a) => a.id === parseInt(req.params.id));
+  const activity = db.activities.find((a) => a.name === req.params.name);
   if (activity) {
     res.json(activity);
   } else {
@@ -52,7 +52,6 @@ app.get("/api/activities/:id", (req, res) => {
 app.post("/api/activities", (req, res) => {
   const db = readDB();
   const newActivity = {
-    id: db.activities.length + 1,
     name: req.body.name,
     performedTimes: req.body.performedTimes || [],
   };
@@ -62,10 +61,10 @@ app.post("/api/activities", (req, res) => {
 });
 
 // Update an activity by ID
-app.put("/api/activities/:id", (req, res) => {
+app.put("/api/activities/:name", (req, res) => {
   const db = readDB();
   const activityIndex = db.activities.findIndex(
-    (a) => a.id === parseInt(req.params.id)
+    (a) => a.name === req.params.name
   );
   if (activityIndex !== -1) {
     db.activities[activityIndex] = {
@@ -80,10 +79,10 @@ app.put("/api/activities/:id", (req, res) => {
 });
 
 // Delete an activity by ID
-app.delete("/api/activities/:id", (req, res) => {
+app.delete("/api/activities/:name", (req, res) => {
   const db = readDB();
   const updatedActivities = db.activities.filter(
-    (a) => a.id !== parseInt(req.params.id)
+    (a) => a.name !== req.params.name
   );
   if (updatedActivities.length !== db.activities.length) {
     db.activities = updatedActivities;
