@@ -11,9 +11,9 @@ const App = () => {
       .then((data) => {
         setActivities(
           data.sort(
-            (a, b) =>
-              new Date(b.performedTimes[b.performedTimes.length - 1]) -
-              new Date(a.performedTimes[a.performedTimes.length - 1])
+            (b, a) =>
+              new Date(b.performedTimes[0]) -
+              new Date(a.performedTimes[0])
           )
         );
         setLoading(false);
@@ -33,7 +33,7 @@ const App = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        performedTimes: [...activities.find((activity) => activity.id === id).performedTimes, now],
+        performedTimes: [now, ...activities.find((activity) => activity.id === id).performedTimes],
       }),
     })
       .then((response) => response.json())
@@ -43,9 +43,9 @@ const App = () => {
         );
         setActivities(
           updatedActivities.sort(
-            (a, b) =>
-              new Date(b.performedTimes[b.performedTimes.length - 1]) -
-              new Date(a.performedTimes[a.performedTimes.length - 1])
+            (b, a) =>
+              new Date(b.performedTimes[0]) -
+              new Date(a.performedTimes[0])
           )
         );
       })
@@ -79,7 +79,7 @@ const App = () => {
             <br />
             <strong>Last performed:</strong>{" "}
             {new Date(
-              activity.performedTimes[activity.performedTimes.length - 1]
+              activity.performedTimes[0]
             ).toLocaleString("en-US", {
               dateStyle: "short",
               timeStyle: "short",
